@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { STORE_CONFIG } from '../config/store.config';
 import { CatalogService } from './catalog.service';
-import { PRODUCT_CATEGORIES } from '../models/product';
+import { Product, PRODUCT_CATEGORIES } from '../models/product';
 
 interface PageMeta {
   title: string;
@@ -16,11 +16,11 @@ interface PageMeta {
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
-  private readonly document = inject(DOCUMENT);
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
-  private readonly router = inject(Router);
-  private readonly catalog = inject(CatalogService);
+  private readonly document: Document = inject(DOCUMENT);
+  private readonly meta: Meta = inject(Meta);
+  private readonly title: Title = inject(Title);
+  private readonly router: Router = inject(Router);
+  private readonly catalog: CatalogService = inject(CatalogService);
 
   constructor() {
     this.router.events
@@ -30,9 +30,9 @@ export class SeoService {
   }
 
   private update(): void {
-    const path = this.router.url.split(/[?#]/, 1)[0];
-    const slug = path.startsWith('/productos/') ? path.slice('/productos/'.length) : '';
-    const product = slug ? this.catalog.findBySlug(slug) : undefined;
+    const path: string = this.router.url.split(/[?#]/, 1)[0];
+    const slug: string = path.startsWith('/productos/') ? path.slice('/productos/'.length) : '';
+    const product: Product | undefined = slug ? this.catalog.findBySlug(slug) : undefined;
     const pages: Record<string, PageMeta> = {
       '/': {
         title: 'Origen Store | Inicio',
@@ -45,8 +45,9 @@ export class SeoService {
           'Descubrí productos de Origen Store, filtrá por categoría y prepará tu consulta por WhatsApp.',
       },
       '/identidad': {
-        title: 'Nuestra identidad | Origen Store',
-        description: 'Conocé la identidad y la paleta visual de Origen Store.',
+        title: 'Sobre nosotros | Origen Store',
+        description:
+          'Conocé Origen Store, nuestra selección de productos para disfrutar y regalar, y cómo consultar tu pedido por WhatsApp.',
       },
       '/carrito': {
         title: 'Mi carrito | Origen Store',
@@ -71,8 +72,8 @@ export class SeoService {
           description: 'La página solicitada no está disponible.',
           indexable: false,
         });
-    const origin = STORE_CONFIG.siteUrl.replace(/\/$/, '');
-    const indexable = !STORE_CONFIG.demoCatalog && !!origin && page.indexable !== false;
+    const origin: string = STORE_CONFIG.siteUrl.replace(/\/$/, '');
+    const indexable: boolean = !STORE_CONFIG.demoCatalog && !!origin && page.indexable !== false;
     this.title.setTitle(page.title);
     this.meta.updateTag({ name: 'description', content: page.description });
     this.meta.updateTag({
@@ -87,10 +88,10 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.meta.updateTag({ name: 'twitter:title', content: page.title });
     this.meta.updateTag({ name: 'twitter:description', content: page.description });
-    const imageUrl = origin ? new URL(page.image ?? '/logo.png', `${origin}/`).href : '';
+    const imageUrl: string = origin ? new URL(page.image ?? 'logo.png', `${origin}/`).href : '';
     this.setOptionalMeta('property', 'og:image', imageUrl);
     this.setOptionalMeta('name', 'twitter:image', imageUrl);
-    const canonicalPath =
+    const canonicalPath: string =
       path === '/productos' || path === '/' || path === '/identidad' || product ? path : '';
     this.setCanonical(indexable && canonicalPath ? `${origin}${canonicalPath}` : '');
     this.setOptionalMeta(

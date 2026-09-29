@@ -1,9 +1,10 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
 import { CatalogService } from './catalog.service';
 import {
   CART_STORAGE_KEY,
   CartEntry,
+  CartLine,
   MAX_CART_QUANTITY,
   cartLines,
   cartSubtotal,
@@ -11,17 +12,22 @@ import {
   setCartQuantity,
   validQuantity,
 } from '../models/cart';
+import { Product } from '../models/product';
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  private readonly document = inject(DOCUMENT);
-  private readonly catalog = inject(CatalogService);
-  private readonly entries = signal<readonly CartEntry[]>([]);
-  readonly message = signal('');
-  readonly storageWarning = signal('');
-  readonly maxQuantity = MAX_CART_QUANTITY;
-  readonly lines = computed(() => cartLines(this.entries(), this.catalog.products));
-  readonly count = computed(() => this.lines().reduce((sum, line) => sum + line.quantity, 0));
-  readonly subtotal = computed(() => cartSubtotal(this.lines()));
+  private readonly document: Document = inject(DOCUMENT);
+  private readonly catalog: CatalogService = inject(CatalogService);
+  private readonly entries: WritableSignal<readonly CartEntry[]> = signal<readonly CartEntry[]>([]);
+  readonly message: WritableSignal<string> = signal('');
+  readonly storageWarning: WritableSignal<string> = signal('');
+  readonly maxQuantity: 99 = MAX_CART_QUANTITY;
+  readonly lines: Signal<readonly CartLine[]> = computed(() =>
+    cartLines(this.entries(), this.catalog.products),
+  );
+  readonly count: Signal<any> = computed(() =>
+    this.lines().reduce((sum, line) => sum + line.quantity, 0),
+  );
+  readonly subtotal: Signal<number> = computed(() => cartSubtotal(this.lines()));
   constructor() {
     try {
       this.entries.set(
@@ -40,12 +46,14 @@ export class CartService {
     return this.entries().find((entry) => entry.productId === id)?.quantity ?? 0;
   }
   add(id: string, quantity = 1): void {
-    const product = this.catalog.products.find((p) => p.id === id && p.available);
+    const product: Product | undefined = this.catalog.products.find(
+      (p) => p.id === id && p.available,
+    );
     if (!product || !validQuantity(quantity)) {
       this.message.set('No se pudo agregar el producto. Revisá la disponibilidad y la cantidad.');
       return;
     }
-    const next = this.quantity(id) + quantity;
+    const next: number = this.quantity(id) + quantity;
     if (next > MAX_CART_QUANTITY) {
       this.message.set(`Podés agregar hasta ${MAX_CART_QUANTITY} unidades por producto.`);
       return;
@@ -78,7 +86,7 @@ export class CartService {
   }
   private save(): void {
     try {
-      const storage = this.document.defaultView?.localStorage;
+      const storage: Storage | undefined = this.document.defaultView?.localStorage;
       if (!storage) throw new Error('Storage unavailable');
       storage.setItem(CART_STORAGE_KEY, JSON.stringify({ version: 1, items: this.entries() }));
       this.storageWarning.set('');
