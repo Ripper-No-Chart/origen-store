@@ -1,0 +1,7 @@
+.os-container {
+  width: min(100% - 2rem, var(--os-content-width));
+  margin-inline: auto;
+}
+.os-stack > * + * {
+  margin-block-start: var(--os-space-6);
+}

@@ -1,0 +1,58 @@
+<section class="intro">
+  <p class="eyebrow">La selección de Origen</p>
+  <h1>Pequeños detalles.<br />Tu propio estilo.</h1>
+  <p>Explorá el catálogo y encontrá tu próximo favorito.</p>
+</section>
+<section aria-label="Catálogo de productos">
+  <div class="filters">
+    <label class="search"
+      >Buscar productos<input
+        #search
+        type="search"
+        placeholder="Nombre, descripción o SKU"
+        [value]="filter().query"
+        (input)="update('q', search.value)" /></label
+    ><label
+      >Categoría<select
+        #category
+        [value]="filter().category"
+        (change)="update('categoria', category.value)"
+      >
+        <option value="all">Todas las categorías</option>
+        @for (item of categories; track item.id) {
+          <option [value]="item.id">{{ item.name }}</option>
+        }
+      </select></label
+    ><label
+      >Ordenar por<select #sort [value]="filter().sort" (change)="update('orden', sort.value)">
+        <option value="featured">Destacados</option>
+        <option value="price-asc">Menor precio</option>
+        <option value="price-desc">Mayor precio</option>
+      </select></label
+    >
+  </div>
+  <div class="results">
+    <p role="status" aria-live="polite">
+      {{ products().length }} {{ products().length === 1 ? 'producto' : 'productos' }}
+    </p>
+    <label class="check"
+      ><input
+        #available
+        type="checkbox"
+        [checked]="filter().availableOnly"
+        (change)="update('disponibles', available.checked ? '1' : '')"
+      />Solo disponibles</label
+    ><button class="clear" type="button" (click)="clear()">Limpiar filtros</button>
+  </div>
+  <div class="grid">
+    @for (product of products(); track product.id) {
+      <app-product-card [product]="product" [catalogParams]="catalogParams()" />
+    } @empty {
+      <div class="empty">
+        <h2>No encontramos productos</h2>
+        <p>Probá otra búsqueda o quitá los filtros para explorar el catálogo.</p>
+        <button type="button" class="os-button" (click)="clear()">Ver todos los productos</button>
+      </div>
+    }
+  </div>
+</section>

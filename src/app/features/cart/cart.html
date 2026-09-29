@@ -1,0 +1,106 @@
+<section class="cart">
+  <div class="heading">
+    <div>
+      <p class="eyebrow">Tu selección</p>
+      <h1>Mi carrito</h1>
+    </div>
+    <a routerLink="/productos">Seguir explorando →</a>
+  </div>
+  @if (cart.lines().length) {
+    <div class="cart-layout">
+      <div class="items">
+        @for (line of cart.lines(); track line.productId) {
+          <article class="item">
+            <a [routerLink]="['/productos', line.product.slug]"
+              ><img
+                [src]="line.product.images[0].src"
+                [alt]="line.product.images[0].alt"
+                width="120"
+                height="90"
+                loading="lazy"
+                decoding="async"
+            /></a>
+            <div class="item-info">
+              <h2>
+                <a [routerLink]="['/productos', line.product.slug]">{{ line.product.name }}</a>
+              </h2>
+              <p>{{ line.product.price | storePrice }} por unidad</p>
+              <div class="quantity">
+                <button
+                  type="button"
+                  [disabled]="line.quantity <= 1"
+                  [attr.aria-label]="'Restar una unidad de ' + line.product.name"
+                  (click)="cart.setQuantity(line.productId, line.quantity - 1)"
+                >
+                  −</button
+                ><label
+                  ><span class="os-visually-hidden">Cantidad de {{ line.product.name }}</span
+                  ><input
+                    #quantity
+                    type="number"
+                    min="1"
+                    [max]="cart.maxQuantity"
+                    step="1"
+                    inputmode="numeric"
+                    [value]="line.quantity"
+                    (change)="updateQuantity(line.productId, quantity)" /></label
+                ><button
+                  type="button"
+                  [disabled]="line.quantity >= cart.maxQuantity"
+                  [attr.aria-label]="'Sumar una unidad de ' + line.product.name"
+                  (click)="cart.setQuantity(line.productId, line.quantity + 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div class="item-total">
+              <strong>{{ line.total | storePrice }}</strong
+              ><button
+                type="button"
+                class="text-button"
+                [attr.aria-label]="'Quitar ' + line.product.name"
+                (click)="cart.remove(line.productId)"
+              >
+                Quitar
+              </button>
+            </div>
+          </article>
+        }
+        <div class="clear">
+          @if (confirmingClear()) {
+            <p>¿Querés quitar todos los productos?</p>
+            <button
+              type="button"
+              class="os-button os-button--secondary"
+              (click)="confirmingClear.set(false)"
+            >
+              Conservar carrito</button
+            ><button type="button" class="os-button" (click)="clear()">Sí, vaciar carrito</button>
+          } @else {
+            <button type="button" class="text-button" (click)="confirmingClear.set(true)">
+              Vaciar carrito
+            </button>
+          }
+        </div>
+      </div>
+      <aside class="summary" aria-label="Resumen del carrito">
+        <h2>Tu selección</h2>
+        <p>{{ cart.count() }} {{ cart.count() === 1 ? 'unidad' : 'unidades' }}</p>
+        <div class="subtotal">
+          <span>Subtotal</span><strong>{{ cart.subtotal() | storePrice }}</strong>
+        </div>
+        <p class="note">Importe de los productos. No incluye envío.</p>
+        <a class="os-button" routerLink="/checkout">Finalizar por WhatsApp</a
+        ><a class="os-button os-button--secondary" routerLink="/productos">Seguir comprando</a>
+      </aside>
+    </div>
+  } @else {
+    <div class="empty os-stack">
+      <img src="favicon.svg" alt="" width="72" height="72" />
+      <h2>Tu carrito está esperando</h2>
+      <p>Explorá el catálogo y agregá tus favoritos.</p>
+      <a class="os-button" routerLink="/productos">Explorar productos</a>
+    </div>
+  }
+</section>

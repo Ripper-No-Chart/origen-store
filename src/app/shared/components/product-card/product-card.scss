@@ -1,0 +1,100 @@
+:host {
+  display: block;
+  height: 100%;
+}
+article {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--os-color-border);
+  border-radius: var(--os-radius-md);
+  overflow: hidden;
+}
+.photo {
+  display: block;
+  position: relative;
+  background: var(--os-color-surface);
+}
+img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+.badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  border-radius: var(--os-radius-pill);
+  background: var(--os-color-background);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+}
+.body {
+  padding: 1.25rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+h2 {
+  font-size: 1.6rem;
+}
+h2 a {
+  text-decoration: none;
+}
+.availability {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.bottom {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.bottom a {
+  font-size: 0.875rem;
+}
+article {
+  transition:
+    border-color var(--os-motion-fast),
+    box-shadow var(--os-motion-fast);
+}
+article:hover,
+article:focus-within {
+  border-color: var(--os-color-primary);
+  box-shadow: 0 12px 28px rgb(30 30 20 / 8%);
+}
+.photo {
+  overflow: hidden;
+}
+.photo img {
+  transition: transform var(--os-motion-fast);
+}
+.photo:hover img {
+  transform: scale(1.025);
+}
+.bottom strong {
+  font-size: 1.25rem;
+  color: var(--os-color-heading);
+}
+.availability {
+  color: var(--os-color-primary);
+  font-weight: 700;
+}
+.body > .os-button {
+  width: 100%;
+}
+@media (max-width: 38rem) {
+  .badge {
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.625rem;
+    line-height: 1.4;
+  }
+}

@@ -1,0 +1,7 @@
+// Único punto de entrada global. Los estilos propios de cada vista van en su componente.
+@use 'styles/tokens/theme';
+@use 'styles/base/reset';
+@use 'styles/base/document';
+@use 'styles/layout/container';
+@use 'styles/components/button';
+@use 'styles/utilities/accessibility';

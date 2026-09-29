@@ -1,0 +1,71 @@
+<a class="back" routerLink="/productos" queryParamsHandling="preserve">← Volver al catálogo</a>
+@if (product(); as item) {
+  <article class="detail">
+    <div>
+      @if (selectedImage(); as image) {
+        <img
+          class="main-image"
+          [src]="image.src"
+          [alt]="image.alt"
+          width="640"
+          height="480"
+          fetchpriority="high"
+        />
+      }
+      <div class="thumbs">
+        @for (image of item.images; track image.src) {
+          <button
+            type="button"
+            [attr.aria-label]="'Ver imagen: ' + image.alt"
+            [attr.aria-pressed]="selectedImage()?.src === image.src"
+            (click)="selectedImage.set(image)"
+          >
+            <img
+              [src]="image.src"
+              [alt]="image.alt"
+              width="96"
+              height="72"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        }
+      </div>
+    </div>
+    <div class="info os-stack">
+      <p class="eyebrow">{{ category() }} · {{ item.sku }}</p>
+      <h1>{{ item.name }}</h1>
+      <p>{{ item.shortDescription }}</p>
+      <p class="price">{{ item.price | storePrice }}</p>
+      <p class="availability">{{ item.available ? 'Disponible' : 'Sin disponibilidad' }}</p>
+      <button
+        type="button"
+        class="os-button"
+        [disabled]="!item.available || cart.quantity(item.id) >= cart.maxQuantity"
+        (click)="cart.add(item.id)"
+      >
+        {{
+          !item.available
+            ? 'Sin disponibilidad'
+            : cart.quantity(item.id) >= cart.maxQuantity
+              ? 'Límite alcanzado'
+              : 'Agregar al carrito'
+        }}</button
+      ><a routerLink="/carrito">Ver carrito ({{ cart.count() }})</a>
+      <h2>Acerca de este producto</h2>
+      <p>{{ item.description }}</p>
+      <a
+        class="os-button os-button--secondary"
+        routerLink="/productos"
+        queryParamsHandling="preserve"
+        >Seguir explorando</a
+      >
+    </div>
+  </article>
+} @else {
+  <section class="missing os-stack">
+    <h1>Producto no encontrado</h1>
+    <p>El enlace no corresponde a un producto del catálogo actual.</p>
+    <a class="os-button" routerLink="/productos">Ver catálogo</a>
+  </section>
+}

@@ -1,0 +1,44 @@
+@use '../abstracts/mixins' as m;
+html {
+  background: var(--os-color-background);
+}
+body {
+  color: var(--os-color-text);
+  font-family: var(--os-font-body);
+  line-height: 1.6;
+}
+h1,
+h2 {
+  color: var(--os-color-heading);
+  font-family: var(--os-font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+:focus-visible {
+  @include m.focus-ring;
+}
+::selection {
+  background: var(--os-color-primary);
+  color: var(--os-color-on-primary);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

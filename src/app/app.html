@@ -1,0 +1,66 @@
+<a class="os-skip-link" [routerLink]="[]" fragment="contenido" queryParamsHandling="preserve"
+  >Saltar al contenido</a
+>
+<header>
+  <div class="os-container masthead">
+    <a class="brand" routerLink="/" aria-label="Origen Store, ir al inicio"
+      ><img src="favicon.svg" width="40" height="40" alt="" /><span
+        >ORIGEN <small>STORE</small></span
+      ></a
+    >
+    <nav aria-label="Navegación principal">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+        >Inicio</a
+      ><a routerLink="/productos" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Productos</a
+      ><a routerLink="/identidad" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Identidad</a
+      >
+    </nav>
+    <a
+      class="cart-link"
+      routerLink="/carrito"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      [attr.aria-label]="
+        'Carrito, ' + cart.count() + (cart.count() === 1 ? ' unidad' : ' unidades')
+      "
+      >Carrito <span class="cart-count">{{ cart.count() }}</span></a
+    >
+  </div>
+</header>
+@if (cart.storageWarning()) {
+  <p class="os-container storage-warning" role="alert">{{ cart.storageWarning() }}</p>
+}
+<main id="contenido" class="os-container" tabindex="-1"><router-outlet /></main>
+<footer class="site-footer">
+  <div class="os-container footer-grid">
+    <div class="footer-intro">
+      <a class="footer-brand" routerLink="/">ORIGEN STORE</a>
+      <p>Todo empieza en el origen.</p>
+      <p>Productos para disfrutar todos los días y regalos para compartir.</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Enlaces del pie de página">
+      <h2 class="footer-heading">Explorá la tienda</h2>
+      <a routerLink="/productos">Productos</a>
+      <a routerLink="/identidad">Sobre nosotros</a>
+      <a routerLink="/carrito">Mi carrito</a>
+    </nav>
+
+    <div class="footer-contact">
+      <h2 class="footer-heading">Armá tu pedido</h2>
+      <p>
+        Elegí tus productos y consultanos por WhatsApp para confirmar disponibilidad y coordinar la
+        compra.
+      </p>
+      <a class="footer-cta" routerLink="/productos">
+        Explorar productos <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</footer>

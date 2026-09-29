@@ -1,0 +1,81 @@
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow">Origen Store · Tu próxima elección</p>
+    <h1 id="hero-title">Encontrá lo que va con vos.</h1>
+    <p>Explorá nuestra selección, armá tu carrito y consultanos tu pedido por WhatsApp.</p>
+    <div class="actions">
+      <a class="os-button" routerLink="/productos">Explorar productos</a
+      ><a class="text-link" routerLink="/identidad">Conocé Origen Store →</a>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <img src="logo-hero.webp" alt="" width="460" height="460" fetchpriority="high" />
+  </div>
+</section>
+<section class="section" aria-labelledby="featured-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Para descubrir</p>
+      <h2 id="featured-title">Productos destacados</h2>
+    </div>
+    <a routerLink="/productos">Ver todo el catálogo →</a>
+  </div>
+  <div class="product-grid">
+    @for (product of featured; track product.id) {
+      <app-product-card [product]="product" />
+    }
+  </div>
+</section>
+<section class="section" aria-labelledby="category-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Elegí por interés</p>
+      <h2 id="category-title">Explorá las categorías</h2>
+    </div>
+  </div>
+  <div class="category-grid">
+    @for (category of categories; track category.id) {
+      <a [routerLink]="['/productos']" [queryParams]="{ categoria: category.id }"
+        ><span>Selección Origen</span><strong>{{ category.name }}</strong
+        ><span>Descubrir →</span></a
+      >
+    }
+  </div>
+</section>
+<section class="section advantages" aria-labelledby="advantages-title">
+  <p class="eyebrow">Una forma simple de elegir</p>
+  <h2 id="advantages-title">De la selección a la conversación</h2>
+  <div class="steps">
+    <div>
+      <span>01</span>
+      <h3>Explorá</h3>
+      <p>Encontrá productos y revisá sus detalles.</p>
+    </div>
+    <div>
+      <span>02</span>
+      <h3>Armá tu carrito</h3>
+      <p>Elegí cantidades y revisá el subtotal antes de consultar.</p>
+    </div>
+    <div>
+      <span>03</span>
+      <h3>Hablemos</h3>
+      <p>Prepará tu mensaje y coordiná los detalles por WhatsApp.</p>
+    </div>
+  </div>
+</section>
+<section class="trust" aria-labelledby="trust-title">
+  <div>
+    <p class="eyebrow">Compra con claridad</p>
+    <h2 id="trust-title">Vos revisás el pedido antes de enviarlo.</h2>
+  </div>
+  <p>
+    El carrito se conserva en este dispositivo. La consulta abre WhatsApp con el mensaje preparado;
+    el envío y el importe final se coordinan por conversación.
+  </p>
+</section>
+<section class="closing" aria-labelledby="closing-title">
+  <p class="eyebrow">Tu próximo favorito te espera</p>
+  <h2 id="closing-title">Empezá por lo que te gusta.</h2>
+  <p>Elegí los productos y consultanos cuando estés listo.</p>
+  <a class="os-button" routerLink="/productos">Ir al catálogo</a>
+</section>

@@ -1,0 +1,77 @@
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-block: 1.5rem;
+}
+.detail {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  padding-block: 1rem 4rem;
+}
+.main-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--os-radius-md);
+  background: var(--os-color-surface);
+}
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+.thumbs button {
+  padding: 0.2rem;
+  background: var(--os-color-surface);
+  border: 2px solid transparent;
+  border-radius: var(--os-radius-sm);
+  transition: transform 180ms ease;
+}
+.thumbs button[aria-pressed='true'] {
+  border-color: var(--os-color-primary);
+}
+.thumbs img {
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  object-fit: contain;
+}
+.eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+}
+h2 {
+  font-size: 1.5rem;
+}
+.price {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+.availability {
+  border-block: 1px solid var(--os-color-border);
+  padding-block: 1rem;
+}
+.missing {
+  padding-block: 4rem;
+}
+button.os-button {
+  margin-right: 1rem;
+}
+@media (max-width: 48rem) {
+  .detail {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+@media (hover: hover) {
+  .thumbs button:hover {
+    transform: scale(1.06);
+  }
+}

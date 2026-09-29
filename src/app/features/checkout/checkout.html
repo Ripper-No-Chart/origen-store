@@ -1,0 +1,115 @@
+<section class="checkout">
+  <a routerLink="/carrito">← Volver al carrito</a>
+  <div class="intro">
+    <p class="eyebrow">Un paso más cerca</p>
+    <h1>Consultá tu pedido</h1>
+    <p>Revisá tu selección y continuá la conversación por WhatsApp.</p>
+  </div>
+  @if (cart.lines().length) {
+    <div class="checkout-layout">
+      <div class="os-stack">
+        <section aria-labelledby="customer-heading" class="panel os-stack">
+          <h2 id="customer-heading">Tus datos</h2>
+          <p>Solo necesitamos tu nombre y localidad o barrio para comenzar.</p>
+          <label for="customer-name">Nombre</label
+          ><input
+            id="customer-name"
+            #customerName
+            type="text"
+            autocomplete="given-name"
+            required
+            minlength="2"
+            maxlength="80"
+            [value]="name()"
+            (input)="name.set(customerName.value)"
+            (blur)="nameTouched.set(true)"
+            [attr.aria-invalid]="nameTouched() && nameInvalid()"
+            aria-describedby="name-help"
+          />
+          <p id="name-help" class="help">
+            @if (nameTouched() && nameInvalid()) {
+              Ingresá un nombre de 2 a 80 caracteres.
+            } @else {
+              El nombre con el que querés que te contactemos.
+            }
+          </p>
+          <label for="customer-zone">Localidad o barrio</label
+          ><input
+            id="customer-zone"
+            #customerZone
+            type="text"
+            autocomplete="address-level2"
+            required
+            minlength="2"
+            maxlength="120"
+            [value]="zone()"
+            (input)="zone.set(customerZone.value)"
+            (blur)="zoneTouched.set(true)"
+            [attr.aria-invalid]="zoneTouched() && zoneInvalid()"
+            aria-describedby="zone-help"
+          />
+          <p id="zone-help" class="help">
+            @if (zoneTouched() && zoneInvalid()) {
+              Ingresá una localidad o barrio de 2 a 120 caracteres.
+            } @else {
+              No hace falta tu dirección exacta.
+            }
+          </p>
+        </section>
+        <section class="panel os-stack" aria-labelledby="message-heading">
+          <h2 id="message-heading">Tu mensaje</h2>
+          @if (message(); as text) {
+            <pre>{{ text }}</pre>
+          } @else {
+            <p>Completá tu nombre y zona para ver el mensaje que vas a enviar.</p>
+          }
+        </section>
+      </div>
+      <aside class="panel summary os-stack" aria-label="Resumen del pedido">
+        <h2>Tu selección</h2>
+        <ul>
+          @for (line of cart.lines(); track line.productId) {
+            <li>
+              <span>{{ line.quantity }} × {{ line.product.name }}</span
+              ><strong>{{ line.total | storePrice }}</strong>
+            </li>
+          }
+        </ul>
+        <div class="subtotal">
+          <span>Subtotal</span><strong>{{ cart.subtotal() | storePrice }}</strong>
+        </div>
+        <p class="help">
+          No incluye envío. Disponibilidad e importe final a confirmar por WhatsApp.
+        </p>
+        <a routerLink="/carrito">Editar mi carrito</a>
+        @if (!configured) {
+          <p class="notice" role="status">
+            El WhatsApp de la tienda todavía no está habilitado. Podés revisar tu mensaje y
+            conservar el carrito.
+          </p>
+        }
+        @if (url(); as link) {
+          <p class="help">Destino: Origen Store · +{{ number }}</p>
+          <a class="os-button" [href]="link" target="_blank" rel="noopener noreferrer"
+            >Continuar por WhatsApp ↗</a
+          >
+        } @else {
+          <button type="button" class="os-button" disabled>Continuar por WhatsApp</button>
+          @if (nameInvalid() || zoneInvalid()) {
+            <p class="help">Completá nombre y zona para continuar.</p>
+          }
+        }
+        <p class="help">
+          Se abrirá WhatsApp con el texto preparado; vos decidís cuándo enviarlo. Abrir el chat no
+          confirma una compra y tu carrito se conserva.
+        </p>
+      </aside>
+    </div>
+  } @else {
+    <div class="panel empty os-stack">
+      <h2>Primero elegí tus productos</h2>
+      <p>Tu carrito está vacío. Agregá un producto para preparar la consulta.</p>
+      <a routerLink="/productos" class="os-button">Explorar productos</a>
+    </div>
+  }
+</section>
