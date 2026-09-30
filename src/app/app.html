@@ -64,3 +64,25 @@
     </div>
   </div>
 </footer>
+<div role="status" aria-live="polite" aria-atomic="true">
+  @if (cart.message(); as message) {
+    <div class="cart-toast">
+      <span class="cart-toast__message">{{ message }}</span>
+
+      <div class="cart-toast__actions">
+        <a routerLink="/carrito" class="cart-toast__link" (click)="cart.message.set('')">
+          Ver carrito
+        </a>
+
+        <button
+          type="button"
+          class="cart-toast__close"
+          aria-label="Cerrar notificación"
+          (click)="cart.message.set('')"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+    </div>
+  }
+</div>
