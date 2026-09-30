@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 export const routes: Routes = [
   {
     path: '',
@@ -8,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'productos',
-    title: 'Catálogo | Origen Store',
+    title: 'Productos | Origen Store',
     loadComponent: () => import('./features/products/products').then((m) => m.Products),
   },
   {
@@ -28,8 +29,13 @@ export const routes: Routes = [
   },
   {
     path: 'identidad',
-    title: 'Nuestra identidad | Origen Store',
+    title: 'Sobre nosotros | Origen Store',
     loadComponent: () => import('./features/brand/brand').then((m) => m.Brand),
+  },
+  {
+    path: '404',
+    title: 'Página no encontrada | Origen Store',
+    loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound),
   },
   {
     path: '**',
