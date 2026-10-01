@@ -87,7 +87,7 @@ export class SeoService {
           indexable: false,
         });
 
-    const origin: string = STORE_CONFIG.siteUrl.replace(/\/$/, '');
+    const origin: string = STORE_CONFIG.siteUrl.replace(/\/+$/, '');
 
     const indexable: boolean = !STORE_CONFIG.demoCatalog && !!origin && page.indexable !== false;
 
@@ -148,18 +148,21 @@ export class SeoService {
     this.setOptionalMeta('property', 'og:image', imageUrl);
     this.setOptionalMeta('name', 'twitter:image', imageUrl);
 
-    const canonicalPath: string =
-      path === '/productos' || path === '/' || path === '/identidad' || product ? path : '';
+    const canonicalPath: string = product ? `/productos/${encodeURIComponent(product.slug)}` : path;
 
-    this.setCanonical(indexable && canonicalPath ? `${origin}${canonicalPath}` : '');
+    const canonicalUrl: string = indexable ? this.pageUrl(origin, canonicalPath) : '';
 
-    this.setOptionalMeta(
-      'property',
-      'og:url',
-      indexable && canonicalPath ? `${origin}${canonicalPath}` : '',
-    );
+    this.setCanonical(canonicalUrl);
+    this.setOptionalMeta('property', 'og:url', canonicalUrl);
 
     this.setStructuredData(indexable ? this.structuredData(origin, product) : []);
+  }
+
+  private pageUrl(siteUrl: string, path: string): string {
+    const base: string = siteUrl.replace(/\/+$/, '');
+    const route: string = path.replace(/^\/+|\/+$/g, '');
+
+    return route ? `${base}/${route}/` : `${base}/`;
   }
 
   private setOptionalMeta(key: 'name' | 'property', value: string, content: string): void {
@@ -191,19 +194,19 @@ export class SeoService {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: STORE_CONFIG.name,
-        url: origin,
+        url: this.pageUrl(origin, '/'),
         logo: `${origin}/logo.png`,
       },
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: STORE_CONFIG.name,
-        url: origin,
+        url: this.pageUrl(origin, '/'),
       },
     ];
 
     if (product) {
-      const url: string = `${origin}/productos/${encodeURIComponent(product.slug)}`;
+      const url: string = this.pageUrl(origin, `/productos/${encodeURIComponent(product.slug)}`);
 
       data.push({
         '@context': 'https://schema.org',
@@ -235,13 +238,13 @@ export class SeoService {
             '@type': 'ListItem',
             position: 1,
             name: 'Inicio',
-            item: origin,
+            item: this.pageUrl(origin, '/'),
           },
           {
             '@type': 'ListItem',
             position: 2,
             name: category ?? 'Productos',
-            item: `${origin}/productos`,
+            item: this.pageUrl(origin, '/productos'),
           },
           {
             '@type': 'ListItem',
