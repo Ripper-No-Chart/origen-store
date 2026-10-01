@@ -56,20 +56,20 @@ export const PRODUCTS = [
     images: [
       {
         src: 'images/products/KIT-MAT-GEN-1L-IMP-ALG-004/portrait.webp',
-        alt: 'image',
+        alt: 'Kit matero con termo Bigstar de 1,2 litros, mate imperial de algarrobo y bombilla',
       },
       {
         src: 'images/products/KIT-MAT-GEN-1L-IMP-ALG-004/004-1.webp',
-        alt: 'image',
+        alt: 'Otra vista del kit matero con termo Bigstar de 1,2 litros, mate imperial de algarrobo y bombilla',
       },
       {
         src: 'images/products/KIT-MAT-GEN-1L-IMP-ALG-004/004-2.webp',
-        alt: 'image',
+        alt: 'Kit matero con termo Bigstar, mate imperial de algarrobo y bombilla desde otro ángulo',
       },
 
       {
         src: 'images/products/KIT-MAT-GEN-1L-IMP-ALG-004/004-3.webp',
-        alt: 'image',
+        alt: 'Vista adicional del conjunto de termo Bigstar de 1,2 litros, mate imperial y bombilla',
       },
     ],
     category: 'kits',

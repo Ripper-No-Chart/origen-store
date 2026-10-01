@@ -3,41 +3,64 @@
     class="photo"
     [routerLink]="['/productos', product().slug]"
     [queryParams]="catalogParams()"
-    [attr.aria-label]="'Ver ' + product().name"
-    ><img
+    [attr.aria-label]="
+      product().featured ? 'Destacado: ver ' + product().name : 'Ver ' + product().name
+    "
+  >
+    <img
       [src]="product().images[0].src"
+      [attr.srcset]="imageSrcset()"
+      sizes="auto, (max-width: 38rem) calc(100vw - 2rem), (max-width: 60rem) 50vw, 33vw"
       [alt]="product().images[0].alt"
       width="640"
-      height="480"
+      height="640"
       loading="lazy"
       decoding="async"
     />
+
     @if (product().featured) {
       <span class="badge">Destacado</span>
     }
   </a>
+
   <div class="body">
-    <p class="availability">{{ product().available ? 'Disponible' : 'Sin disponibilidad' }}</p>
+    <p class="availability">
+      {{ product().available ? 'Disponible' : 'Sin disponibilidad' }}
+    </p>
+
     <h2>
-      <a [routerLink]="['/productos', product().slug]" [queryParams]="catalogParams()">{{
-        product().name
-      }}</a>
+      <a [routerLink]="['/productos', product().slug]" [queryParams]="catalogParams()">
+        {{ product().name }}
+      </a>
     </h2>
+
     <p>{{ product().shortDescription }}</p>
+
     <div class="bottom">
-      <strong>{{ product().price | storePrice }}</strong
-      ><a
+      <strong>{{ product().price | storePrice }}</strong>
+
+      <a
         [routerLink]="['/productos', product().slug]"
         [queryParams]="catalogParams()"
         [attr.aria-label]="'Ver detalle de ' + product().name"
-        >Ver detalle →</a
       >
+        Ver detalle <span aria-hidden="true">→</span>
+      </a>
     </div>
+
     <button
       type="button"
       class="os-button"
       [disabled]="!product().available || cart.quantity(product().id) >= cart.maxQuantity"
-      [attr.aria-label]="'Agregar ' + product().name + ' al carrito'"
+      [attr.aria-label]="
+        (!product().available
+          ? 'Sin disponibilidad'
+          : cart.quantity(product().id) >= cart.maxQuantity
+            ? 'Límite alcanzado'
+            : 'Agregar al carrito') +
+        ': ' +
+        product().name
+      "
       (click)="cart.add(product().id)"
     >
       {{
