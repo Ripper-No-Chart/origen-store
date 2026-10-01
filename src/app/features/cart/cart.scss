@@ -28,10 +28,13 @@
   border-bottom: 1px solid var(--os-color-border);
 }
 .item img {
+  display: block;
+  width: 7.5rem;
+  height: 5.625rem;
+  object-fit: contain;
+  object-position: center;
+  // background: var(--os-color-surface);
   border-radius: var(--os-radius-sm);
-  width: 120px;
-  height: 90px;
-  object-fit: cover;
 }
 .item-info {
   flex: 1;
@@ -136,8 +139,8 @@ input {
     gap: 0.75rem;
   }
   .item img {
-    width: 80px;
-    height: 60px;
+    width: 5rem;
+    height: 3.75rem;
   }
   .item-total {
     width: 100%;

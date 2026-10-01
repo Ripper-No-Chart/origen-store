@@ -41,6 +41,7 @@
                     min="1"
                     [max]="cart.maxQuantity"
                     step="1"
+                    name="quantity"
                     inputmode="numeric"
                     [value]="line.quantity"
                     (change)="updateQuantity(line.productId, quantity)" /></label
