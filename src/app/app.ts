@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { SeoService } from './core/services/seo.service';
-import { CartService } from './core/services/cart.service';
+
 import { STORE_CONFIG } from './core/config/store.config';
+import { CartService } from './core/services/cart.service';
+import { SeoService } from './core/services/seo.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,7 +14,9 @@ import { STORE_CONFIG } from './core/config/store.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  protected readonly cart = inject(CartService);
-  protected readonly store = STORE_CONFIG;
-  private readonly seo = inject(SeoService);
+  protected readonly cart: CartService = inject(CartService);
+
+  protected readonly store: typeof STORE_CONFIG = STORE_CONFIG;
+
+  private readonly seo: SeoService = inject(SeoService);
 }

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+import { Product, PRODUCT_CATEGORIES } from '../../core/models/product';
 import { CatalogService } from '../../core/services/catalog.service';
-import { PRODUCT_CATEGORIES } from '../../core/models/product';
 import { ProductCard } from '../../shared/components/product-card/product-card';
 
 @Component({
@@ -13,9 +14,11 @@ import { ProductCard } from '../../shared/components/product-card/product-card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {
-  private readonly catalog = inject(CatalogService);
-  protected readonly featured = this.catalog.products
-    .filter((product) => product.featured)
+  private readonly catalog: CatalogService = inject(CatalogService);
+
+  protected readonly featured: readonly Product[] = this.catalog.products
+    .filter((product: Product): boolean => product.featured)
     .slice(0, 3);
-  protected readonly categories = PRODUCT_CATEGORIES;
+
+  protected readonly categories: typeof PRODUCT_CATEGORIES = PRODUCT_CATEGORIES;
 }

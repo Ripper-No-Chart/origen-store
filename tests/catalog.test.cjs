@@ -110,8 +110,7 @@ const checkoutConfig = {
   whatsappNumber: '',
 };
 
-test('combina búsqueda sin tildes, categoría y disponibilidad', /** @returns {void} */
-() => {
+test('combina búsqueda sin tildes, categoría y disponibilidad' /** @returns {void} */, () => {
   /** @type {readonly Product[]} */
   const fixtures = [
     {
@@ -167,8 +166,7 @@ test('combina búsqueda sin tildes, categoría y disponibilidad', /** @returns {
   );
 });
 
-test('ordena por precio sin mutar datos originales', /** @returns {void} */
-() => {
+test('ordena por precio sin mutar datos originales' /** @returns {void} */, () => {
   /** @type {string[]} */
   const before = PRODUCTS.map(
     /** @param {Product} product @returns {string} */
@@ -211,8 +209,7 @@ test('ordena por precio sin mutar datos originales', /** @returns {void} */
   );
 });
 
-test('prioriza destacados y valida parámetros desconocidos', /** @returns {void} */
-() => {
+test('prioriza destacados y valida parámetros desconocidos' /** @returns {void} */, () => {
   /** @type {readonly Product[]} */
   const result = filterProducts(PRODUCTS, filter);
 
@@ -233,8 +230,7 @@ test('prioriza destacados y valida parámetros desconocidos', /** @returns {void
   assert.equal(parseSort('invalid'), 'featured');
 });
 
-test('catálogo con identificadores únicos, precios válidos e imágenes locales existentes', /** @returns {void} */
-() => {
+test('catálogo con identificadores únicos, precios válidos e imágenes locales existentes' /** @returns {void} */, () => {
   /** @type {readonly ('id' | 'slug' | 'sku')[]} */
   const keys = ['id', 'slug', 'sku'];
 
@@ -269,8 +265,7 @@ test('catálogo con identificadores únicos, precios válidos e imágenes locale
   );
 });
 
-test('carrito restaura solo cantidades válidas y productos disponibles del catálogo', /** @returns {void} */
-() => {
+test('carrito restaura solo cantidades válidas y productos disponibles del catálogo' /** @returns {void} */, () => {
   /** @type {Product | undefined} */
   const available = PRODUCTS.find(
     /** @param {Product} product @returns {boolean} */
@@ -338,8 +333,7 @@ test('carrito restaura solo cantidades válidas y productos disponibles del cat�
   );
 });
 
-test('carrito actualiza sin duplicar, rechaza cantidades inválidas y suma centavos', /** @returns {void} */
-() => {
+test('carrito actualiza sin duplicar, rechaza cantidades inválidas y suma centavos' /** @returns {void} */, () => {
   /** @type {Product | undefined} */
   const available = PRODUCTS.find(
     /** @param {Product} product @returns {boolean} */
@@ -392,8 +386,7 @@ test('carrito actualiza sin duplicar, rechaza cantidades inválidas y suma centa
   assert.equal(cartSubtotal([]), 0);
 });
 
-test('checkout requiere productos y datos válidos', /** @returns {void} */
-() => {
+test('checkout requiere productos y datos válidos' /** @returns {void} */, () => {
   assert.equal(buildOrderMessage([], { name: 'Ana', zone: 'Centro' }, checkoutConfig), null);
 
   assert.equal(validCustomer({ name: '  ', zone: 'Centro' }), false);
@@ -415,8 +408,7 @@ test('checkout requiere productos y datos válidos', /** @returns {void} */
   );
 });
 
-test('mensaje incluye pedido, importes actuales y datos normalizados', /** @returns {void} */
-() => {
+test('mensaje incluye pedido, importes actuales y datos normalizados' /** @returns {void} */, () => {
   /** @type {readonly CartLine[]} */
   const lines = cartLines([{ productId: PRODUCTS[0].id, quantity: 2 }], PRODUCTS);
 
@@ -453,8 +445,7 @@ test('mensaje incluye pedido, importes actuales y datos normalizados', /** @retu
   assert.ok(!live.includes('DEMOSTRACIÓN'));
 });
 
-test('WhatsApp rechaza configuración vacía y codifica caracteres especiales', /** @returns {void} */
-() => {
+test('WhatsApp rechaza configuración vacía y codifica caracteres especiales' /** @returns {void} */, () => {
   /** @type {readonly string[]} */
   const invalidNumbers = ['', '+54 9 11', '00012345', 'abc', '5491112345678?x=1'];
 
